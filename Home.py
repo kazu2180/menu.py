@@ -15,7 +15,7 @@ if "favorites" not in st.session_state:
 # 📅 カレンダーページ
 if page == "📅 カレンダー":
     st.title("🍱 今週の献立（平日のみ）")
-    st.markdown（”””
+    st.markdown("""
     <div style="background-color:#f0f8ff; padding:10px; border-radius:10px">
     <h4>🔗 おすすめレシピサイト</h4>
     <ul>
