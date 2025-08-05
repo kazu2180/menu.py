@@ -16,15 +16,15 @@ if "favorites" not in st.session_state:
 if page == "📅 カレンダー":
     st.title("🍱 今週の献立（平日のみ）")
 
-st.markdown("""
-<div style="background-color:#f0f8ff; padding:10px; border-radius:10px">
+　　st.markdown（”””
+　　<div style="background-color:#f0f8ff; padding:10px; border-radius:10px">
     <h4>🔗 おすすめレシピサイト</h4>
     <ul>
         <li><a href="https://cookpad.com/jp/search/%E3%81%8A%E5%BC%81%E5%BD%93" target="_blank">クックパッド 🍚</a></li>
         <li><a href="https://www.ebarafoods.com/recipe/cla_menu/35/" target="_blank">エバラ食品 🍳</a></li>
     </ul>
-</div>
-""", unsafe_allow_html=True)
+　　</div>
+　　""", unsafe_allow_html=True)
 
     today = datetime.date.today()
     weekday_dates = []
