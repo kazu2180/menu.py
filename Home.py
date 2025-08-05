@@ -3,7 +3,7 @@ import datetime
 
 st.set_page_config(page_title="献立管理", layout="wide")
 
-# サイドバーでページ選択
+# ページ選択
 page = st.sidebar.radio("ページを選択", ["📅 カレンダー", "📜 履歴", "⭐ お気に入り"])
 
 # セッションステート初期化
@@ -12,17 +12,27 @@ if "meal_data" not in st.session_state:
 if "favorites" not in st.session_state:
     st.session_state.favorites = []
 
-# 📅 カレンダーページ
+# 📅 カレンダー（平日のみ）
 if page == "📅 カレンダー":
-    st.title("今週の献立を登録")
+    st.title("今週の平日献立を登録")
+
     today = datetime.date.today()
-    for i in range(7):
-        date = today + datetime.timedelta(days=i)
+    weekday_dates = []
+    delta = datetime.timedelta(days=1)
+    current = today
+
+    # 平日5日分を取得
+    while len(weekday_dates) < 5:
+        if current.weekday() < 5:  # 0=月, 4=金
+            weekday_dates.append(current)
+        current += delta
+
+    for date in weekday_dates:
         key = str(date)
-        meal = st.text_input(f"{date.strftime('%Y-%m-%d')} の献立", value=st.session_state.meal_data.get(key, ""), key=key)
+        meal = st.text_input(f"{date.strftime('%Y-%m-%d (%a)')} の献立", value=st.session_state.meal_data.get(key, ""), key=key)
         st.session_state.meal_data[key] = meal
 
-        # お気に入りに追加ボタン
+        # お気に入りに追加
         if meal and st.button(f"⭐ お気に入りに追加 ({date})", key=f"fav_{key}"):
             if meal not in st.session_state.favorites:
                 st.session_state.favorites.append(meal)
@@ -46,7 +56,7 @@ elif page == "⭐ お気に入り":
     else:
         st.info("お気に入りメニューはまだありません。")
 
-    # お気に入りの削除
+    # お気に入り削除
     remove_meal = st.selectbox("削除するメニューを選択", [""] + st.session_state.favorites)
     if remove_meal and st.button("❌ 削除"):
         st.session_state.favorites.remove(remove_meal)
